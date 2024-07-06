@@ -1,7 +1,7 @@
 package version
 
 var (
-	version    string = "0.0.4"
+	version    string = "0.1.0"
 	revision   string = "unknown"
 	prerelease string = "dev"
 )

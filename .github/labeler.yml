@@ -16,10 +16,15 @@ release:
 - changed-files:
   - any-glob-to-any-file:
     - 'internal/version/version.go'
-major:
+tagpr:
+- changed-files:
+  - any-glob-to-any-file:
+    - '.tagpr'
+    - '.tagpr.tmpl'
+tagpr:major:
 - head-branch:
   - '^breaking'
-minor:
+tagpr:minor:
 - head-branch:
   - '^feat'
 ################################################################################
@@ -189,11 +194,3 @@ renovate:
     - '.renovaterc'
     - '.renovaterc.json'
     - '.renovaterc.json5'
-################################################################################
-# Tag Pull Request
-################################################################################
-tagpr:
-- changed-files:
-  - any-glob-to-any-file:
-    - '.tagpr'
-    - '.tagpr.tmpl'

@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.4](https://github.com/takumin/tagpr-playground/compare/v0.0.3...v0.0.4) - 2024-07-06
+- ci: update release.yml to exclude certain authors by @takumin in https://github.com/takumin/tagpr-playground/pull/8
+- ci: update release config to exclude 'tagpr' labels by @takumin in https://github.com/takumin/tagpr-playground/pull/10
+
 ## [v0.0.3](https://github.com/takumin/tagpr-playground/compare/v0.0.2...v0.0.3) - 2024-07-06
 - ci: split CI and Tag PR workflows by @takumin in https://github.com/takumin/tagpr-playground/pull/6
 

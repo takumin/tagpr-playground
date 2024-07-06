@@ -8,6 +8,10 @@ import (
 )
 
 func main() {
+	showVersion()
+}
+
+func showVersion() {
 	fmt.Println("Runtime:", runtime.Version())
 	fmt.Println("Version:", version.Version())
 	fmt.Println("Revision:", version.Revision())

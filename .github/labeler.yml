@@ -1,0 +1,160 @@
+---
+################################################################################
+# Basic
+################################################################################
+enhancement:
+- head-branch:
+  - '^feat'
+bug:
+- head-branch:
+  - '^fix'
+################################################################################
+# Build
+################################################################################
+build:
+- head-branch:
+  - '^build'
+- changed-files:
+  - any-glob-to-any-file:
+    # GNU Make
+    - '**/GNUmakefile'
+    - '**/Makefile'
+    - '**/makefile'
+    # Ruby Rake
+    - '**/Rakefile'
+    - '**/*.rake'
+    # Go Task
+    - '**/Taskfile.yml'
+    - '**/taskfile.yml'
+    - '**/Taskfile.yaml'
+    - '**/taskfile.yaml'
+    - '**/Taskfile.dist.yml'
+    - '**/taskfile.dist.yml'
+    - '**/Taskfile.dist.yaml'
+    - '**/taskfile.dist.yaml'
+################################################################################
+# Test
+################################################################################
+test:
+- head-branch:
+  - '^test'
+- changed-files:
+  - any-glob-to-any-file:
+    - 'tests/**/*'
+    - '**/*_test.go'
+    - '**/*.golden'
+    - '**/*.golden.json'
+    - '**/testdata/**/*'
+################################################################################
+# Document
+################################################################################
+documentation:
+- head-branch:
+  - '^docs'
+- changed-files:
+  - any-glob-to-any-file:
+    - 'docs/**'
+markdown:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.md'
+    - '**/*.markdown'
+asciidoc:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.adoc'
+    - '**/*.asciidoc'
+plantuml:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.pu'
+    - '**/*.puml'
+    - '**/*.plantuml'
+################################################################################
+# Script
+################################################################################
+script:
+- changed-files:
+  - any-glob-to-any-file:
+    - 'scripts/**/*'
+    - '**/*.sh'
+    - '**/*.bash'
+shellscript:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.sh'
+    - '**/*.bash'
+################################################################################
+# Language
+################################################################################
+go:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.go'
+rust:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.rs'
+ruby:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.rb'
+sql:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.sql'
+html:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.html'
+htmx:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.htmx'
+javascript:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.js'
+typescript:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.ts'
+jsx:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.jsx'
+css:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.css'
+sass:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.sass'
+scss:
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/*.scss'
+################################################################################
+# GitHub
+################################################################################
+github:
+- changed-files:
+  - any-glob-to-any-file:
+    - 'CODEOWNERS'
+    - '.github/**/*'
+codeowners:
+- changed-files:
+  - any-glob-to-any-file:
+    - 'CODEOWNERS'
+    - '.github/CODEOWNERS'
+    - 'docs/CODEOWNERS'
+actions:
+- changed-files:
+  - any-glob-to-any-file:
+    - '.github/actions/**/*'
+    - '.github/workflows/*'
+labeler:
+- changed-files:
+  - any-glob-to-any-file:
+    - '.github/labeler.yml'

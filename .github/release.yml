@@ -1,6 +1,8 @@
 ---
 changelog:
   exclude:
+    labels:
+    - tagpr
     authors:
     - renovate
     - github-actions

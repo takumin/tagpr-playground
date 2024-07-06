@@ -9,6 +9,7 @@ import (
 
 func main() {
 	showVersion()
+	testFunc()
 }
 
 func showVersion() {
@@ -16,4 +17,8 @@ func showVersion() {
 	fmt.Println("Version:", version.Version())
 	fmt.Println("Revision:", version.Revision())
 	fmt.Println("Prerelease:", version.Prerelease())
+}
+
+func testFunc() {
+	fmt.Println("test message")
 }

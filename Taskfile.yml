@@ -66,13 +66,13 @@ tasks:
     sources:
     - '**/go.mod'
     - '**/go.sum'
-    - '**.go'
-    - '**.json'
-    - '**.yml'
-    - '**.yaml'
-    - '**.toml'
-    - '**.sh'
-    - '**.bash'
+    - '**/*.go'
+    - '**/*.json'
+    - '**/*.yml'
+    - '**/*.yaml'
+    - '**/*.toml'
+    - '**/*.sh'
+    - '**/*.bash'
     - exclude: '.git/**'
     - exclude: '.task/**'
     - exclude: 'bin/**'
@@ -88,8 +88,8 @@ tasks:
     run: once
     deps: [tool]
     sources:
-    - '**.yml'
-    - '**.yaml'
+    - '**/*.yml'
+    - '**/*.yaml'
     - exclude: '.git/**'
     - exclude: '.task/**'
     - exclude: 'bin/**'
@@ -105,8 +105,8 @@ tasks:
     run: once
     deps: [tool]
     sources:
-    - '.github/**.yml'
-    - '.github/**.yaml'
+    - '.github/**/*.yml'
+    - '.github/**/*.yaml'
     generates:
     - .task/.done_{{.TASK}}
     cmds:
@@ -118,8 +118,8 @@ tasks:
     run: once
     deps: [tool]
     sources:
-    - '.github/**.yml'
-    - '.github/**.yaml'
+    - '.github/**/*.yml'
+    - '.github/**/*.yaml'
     generates:
     - .task/.done_{{.TASK}}
     cmds:
@@ -149,7 +149,7 @@ tasks:
     sources:
     - '**/go.mod'
     - '**/go.sum'
-    - '**.go'
+    - '**/*.go'
     generates:
     - .task/.done_{{.TASK}}
     cmds:
@@ -163,7 +163,7 @@ tasks:
     sources:
     - '**/go.mod'
     - '**/go.sum'
-    - '**.go'
+    - '**/*.go'
     generates:
     - .task/.done_{{.TASK}}
     cmds:
@@ -177,7 +177,7 @@ tasks:
     sources:
     - '**/go.mod'
     - '**/go.sum'
-    - '**.go'
+    - '**/*.go'
     generates:
     - .task/.done_{{.TASK}}
     cmds:
@@ -191,7 +191,7 @@ tasks:
     sources:
     - '**/go.mod'
     - '**/go.sum'
-    - '**.go'
+    - '**/*.go'
     generates:
     - .task/.done_{{.TASK}}
     cmds:
@@ -205,7 +205,7 @@ tasks:
     sources:
     - '**/go.mod'
     - '**/go.sum'
-    - '**.go'
+    - '**/*.go'
     generates:
     - .task/.done_{{.TASK}}
     cmds:
@@ -219,7 +219,7 @@ tasks:
     sources:
     - '**/go.mod'
     - '**/go.sum'
-    - '**.go'
+    - '**/*.go'
     generates:
     - coverage.out
     - coverage.html
@@ -233,7 +233,7 @@ tasks:
     sources:
     - '**/go.mod'
     - '**/go.sum'
-    - '**.go'
+    - '**/*.go'
     - exclude: '**_test.go'
     generates:
     - bin/{{.BINNAME}}

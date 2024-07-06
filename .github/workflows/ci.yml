@@ -1,0 +1,41 @@
+---
+name: CI
+on:
+  push:
+    branches:
+    - 'main'
+permissions: {}
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    ################################################################################
+    # Checkout
+    ################################################################################
+    - name: Checkout
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+    ################################################################################
+    # Setup Go
+    ################################################################################
+    - uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5.0.1
+      with:
+        go-version-file: 'go.mod'
+        cache-dependency-path: 'go.sum'
+    ################################################################################
+    # Setup Aqua
+    ################################################################################
+    - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      with:
+        path: ~/.local/share/aquaproj-aqua
+        key: aqua-installer-${{runner.os}}-${{runner.arch}}-${{hashFiles('.aqua.yml')}}
+    - uses: aquaproj/aqua-installer@6ce1f8848ec8e61f14d57bd5d7597057a6dd187c # v3.0.1
+      with:
+        aqua_version: v2.29.0
+        aqua_opts: -a
+    ################################################################################
+    # Running Task
+    ################################################################################
+    - name: Running Task
+      run: task

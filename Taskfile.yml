@@ -1,0 +1,242 @@
+---
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GOOS: '{{.GOOS | default OS .GOOS}}'
+  GOARCH: '{{.GOARCH | default ARCH .GOARCH}}'
+
+  APPNAME:
+    sh: basename '{{.TASKFILE_DIR}}'
+  PKGNAME:
+    sh: go mod edit -json | jq -r '.Module.Path'
+
+  VERSION:
+    sh: gobump show -r internal/version
+  REVISION:
+    sh: git rev-parse HEAD
+  PRERELEASE: '{{.PRERELEASE | default "dev" .PRERELEASE}}'
+  FULLVERSION: '{{.VERSION}}{{if ne "" .PRERELEASE}}-{{.PRERELEASE}}{{end}}'
+
+  BINEXT: '{{if eq "windows" .GOOS}}.exe{{end}}'
+  BINNAME: '{{.APPNAME}}_v{{.FULLVERSION}}_{{.GOOS}}_{{.GOARCH}}{{.BINEXT}}'
+
+  LDFLAGS_VERSION: -X "{{.PKGNAME}}/internal/version.version={{.VERSION}}"
+  LDFLAGS_REVISION: -X "{{.PKGNAME}}/internal/version.revision={{.REVISION}}"
+  LDFLAGS_PRERELEASE: -X "{{.PKGNAME}}/internal/version.prerelease={{.PRERELEASE}}"
+  LDFLAGS_VARIABLES: '{{.LDFLAGS_VERSION}} {{.LDFLAGS_REVISION}} {{.LDFLAGS_PRERELEASE}}'
+  BUILDFLAGS: -trimpath -ldflags '-s -w -buildid= {{.LDFLAGS_VARIABLES}} -extldflags -static'
+
+tasks:
+  default:
+    silent: true
+    deps:
+    - tool
+    - editorconfig
+    - yamlfmt
+    - actionlint
+    - ghalint
+    - gomod
+    - gogen
+    - gofmt
+    - gosec
+    - trivy
+    - staticcheck
+    - gotest
+    - gobuild
+
+  tool:
+    run: once
+    sources:
+    - .aqua.yaml
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - aqua install -a
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  editorconfig:
+    run: once
+    deps: [tool]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    - '**/*.go'
+    - '**/*.json'
+    - '**/*.yml'
+    - '**/*.yaml'
+    - '**/*.toml'
+    - '**/*.sh'
+    - '**/*.bash'
+    - exclude: '.git/**/*'
+    - exclude: '.task/**/*'
+    - exclude: 'bin/**/*'
+    - exclude: 'dist/**/*'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - ec
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  yamlfmt:
+    run: once
+    deps: [tool]
+    sources:
+    - '**/*.yml'
+    - '**/*.yaml'
+    - exclude: '.git/**/*'
+    - exclude: '.task/**/*'
+    - exclude: 'bin/**/*'
+    - exclude: 'dist/**/*'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - yamlfmt .
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  actionlint:
+    run: once
+    deps: [tool]
+    sources:
+    - '.github/**/*.yml'
+    - '.github/**/*.yaml'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - actionlint
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  ghalint:
+    run: once
+    deps: [tool]
+    sources:
+    - '.github/**/*.yml'
+    - '.github/**/*.yaml'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - ghalint run
+    - ghalint act
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  gomod:
+    run: once
+    deps: [tool]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - go mod download
+    - go mod tidy
+    - go mod verify
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  gogen:
+    run: once
+    deps: [gomod]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    - '**/*.go'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - go generate ./...
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  gofmt:
+    run: once
+    deps: [gogen]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    - '**/*.go'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - gofmt -e -d .
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  gosec:
+    run: once
+    deps: [gofmt]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    - '**/*.go'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - gosec -quiet -fmt golint ./...
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  trivy:
+    run: once
+    deps: [gofmt]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    - '**/*.go'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - trivy fs -q -s HIGH,CRITICAL --scanners vuln,misconfig,secret,license .
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  staticcheck:
+    run: once
+    deps: [gofmt]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    - '**/*.go'
+    generates:
+    - .task/.done_{{.TASK}}
+    cmds:
+    - staticcheck ./...
+    - cmd: touch .task/.done_{{.TASK}}
+      silent: true
+
+  gotest:
+    run: once
+    deps: [gosec, trivy, staticcheck]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    - '**/*.go'
+    generates:
+    - coverage.out
+    - coverage.html
+    cmds:
+    - go test -race {{.BUILDFLAGS}} -cover -covermode atomic -coverprofile=coverage.out ./...
+    - go tool cover -html=coverage.out -o coverage.html
+
+  gobuild:
+    run: once
+    deps: [gotest]
+    sources:
+    - '**/go.mod'
+    - '**/go.sum'
+    - '**/*.go'
+    - exclude: '**/*_test.go'
+    generates:
+    - bin/{{.BINNAME}}
+    env:
+      CGO_ENABLED: 0
+      GOOS: '{{.GOOS}}'
+      GOARCH: '{{.GOARCH}}'
+    cmds:
+    - go build {{.BUILDFLAGS}} -o bin/{{.BINNAME}}

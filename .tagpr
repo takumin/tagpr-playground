@@ -2,5 +2,7 @@
 [tagpr]
 	vPrefix = true
 	releaseBranch = main
+	majorLabels = [major]
+	minorLabels = [minor]
 	versionFile = internal/version/version.go
 	template = .tagpr.tmpl

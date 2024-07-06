@@ -17,7 +17,3 @@ func showVersion() {
 	fmt.Println("Revision:", version.Revision())
 	fmt.Println("Prerelease:", version.Prerelease())
 }
-
-func testFunc() {
-	fmt.Println("test implemented")
-}

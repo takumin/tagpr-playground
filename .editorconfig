@@ -24,3 +24,6 @@ indent_style = tab
 
 [{LICENSE,*.md}]
 indent_style = unset
+
+[.tagpr]
+indent_style = tab

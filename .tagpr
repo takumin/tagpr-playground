@@ -1,0 +1,5 @@
+# vim: set ft=gitconfig :
+[tagpr]
+	vPrefix = true
+	releaseBranch = main
+	versionFile = internal/version/version.go

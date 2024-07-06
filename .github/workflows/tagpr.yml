@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Tag PR
 on:
   push:
     branches:

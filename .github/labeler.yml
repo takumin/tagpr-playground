@@ -9,6 +9,20 @@ bug:
 - head-branch:
   - '^fix'
 ################################################################################
+# Release
+################################################################################
+release:
+- base-branch: 'main'
+- changed-files:
+  - any-glob-to-any-file:
+    - 'internal/version/version.go'
+major:
+- head-branch:
+  - '^breaking'
+minor:
+- head-branch:
+  - '^feat'
+################################################################################
 # Build
 ################################################################################
 build:
@@ -158,3 +172,28 @@ labeler:
 - changed-files:
   - any-glob-to-any-file:
     - '.github/labeler.yml'
+################################################################################
+# Renovate
+################################################################################
+renovate:
+- head-branch:
+  - '^renovate'
+- changed-files:
+  - any-glob-to-any-file:
+    - 'renovate.json'
+    - 'renovate.json5'
+    - '.github/renovate.json'
+    - '.github/renovate.json5'
+    - '.gitlab/renovate.json'
+    - '.gitlab/renovate.json5'
+    - '.renovaterc'
+    - '.renovaterc.json'
+    - '.renovaterc.json5'
+################################################################################
+# Tag Pull Request
+################################################################################
+tagpr:
+- changed-files:
+  - any-glob-to-any-file:
+    - '.tagpr'
+    - '.tagpr.tmpl'
